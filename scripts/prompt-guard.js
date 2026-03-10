@@ -57,7 +57,7 @@ if (result.findings.length > 0) {
   }
   console.error('');
 
-  process.exit(0);
+  process.exit(1); // Exit with non-zero to block the prompt
 }
 
 // No sensitive data, allow the prompt
