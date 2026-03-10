@@ -2,8 +2,8 @@
  * Core scanning engine
  */
 
-import { DetectionRule, Finding, ScanResult, Severity } from '../types/findings';
-import { BUILTIN_RULES } from './detectors';
+import { DetectionRule, Finding, ScanResult, Severity } from '../types/findings.js';
+import { BUILTIN_RULES } from './detectors.js';
 
 export class PrivacyScanner {
   private rules: DetectionRule[];

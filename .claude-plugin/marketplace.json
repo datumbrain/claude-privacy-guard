@@ -1,0 +1,13 @@
+{
+  "name": "datumbrain-plugins",
+  "owner": {
+    "name": "Datum Brain"
+  },
+  "plugins": [
+    {
+      "name": "claude-privacy-guard",
+      "source": "./",
+      "description": "Privacy guard plugin for Claude Code"
+    }
+  ]
+}

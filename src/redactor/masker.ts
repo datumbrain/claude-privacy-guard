@@ -2,7 +2,7 @@
  * Redaction and masking utilities
  */
 
-import { Finding, ScanResult } from '../types/findings';
+import { Finding, ScanResult } from '../types/findings.js';
 
 export class Redactor {
   /**

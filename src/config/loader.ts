@@ -2,7 +2,7 @@
  * Configuration loading and management
  */
 
-import { PrivacyGuardConfig } from '../types/findings';
+import { PrivacyGuardConfig } from '../types/findings.js';
 import * as fs from 'fs';
 import * as path from 'path';
 

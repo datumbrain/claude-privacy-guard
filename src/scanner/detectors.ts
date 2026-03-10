@@ -2,7 +2,7 @@
  * Pattern detectors for sensitive data
  */
 
-import { DetectionRule } from '../types/findings';
+import { DetectionRule } from '../types/findings.js';
 
 /**
  * Built-in detection rules
@@ -59,8 +59,8 @@ export const BUILTIN_RULES: DetectionRule[] = [
     description: 'Detects OpenAI API keys',
     severity: 'critical',
     category: 'secret',
-    pattern: /\bsk-[A-Za-z0-9]{20,}\b/g,
-    examples: ['sk-proj-1234567890abcdefghij'],
+    pattern: /sk-(?:proj-)?[A-Za-z0-9]{8,}/g,
+    examples: ['sk-proj-1234567890abcdefghij', 'sk-1234567890abcdefghij'],
     redactionStrategy: 'token-replace',
     enabled: true,
   },

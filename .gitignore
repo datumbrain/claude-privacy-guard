@@ -28,4 +28,6 @@ coverage/
 
 # Config (user-specific)
 .privacy-guard.json
-docs/
+
+# Local Claude Code settings
+.claude/

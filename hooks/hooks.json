@@ -1,0 +1,16 @@
+{
+  "description": "Privacy Guard hooks for intercepting and redacting sensitive data",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/prompt-guard-wrapper.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
