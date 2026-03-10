@@ -2,7 +2,8 @@
 node_modules/
 
 # Build output
-dist/
+# Note: dist/ is committed because Claude Code plugins need pre-built files
+# dist/
 *.tsbuildinfo
 
 # Logs
