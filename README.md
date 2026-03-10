@@ -95,6 +95,12 @@ npm run build
 echo "test sk-proj-abc123" | node scripts/prompt-guard.js
 ```
 
+Release:
+```bash
+make release
+```
+This runs an interactive flow that asks for version bump, confirms release actions, then runs build/test, creates commit+tag, and optionally pushes/publishes.
+
 External regex dataset:
 - Converted rules are stored at `data/regex_list_1.json`
 - By default, external rules are loaded in `coding-only` mode (focus on keys/tokens/secrets/password/private key patterns)
