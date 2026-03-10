@@ -1,6 +1,7 @@
 /**
  * Pattern detectors for sensitive data
  */
+import * as fs from 'fs';
 /**
  * Built-in detection rules
  * Start with high-value patterns that catch the most dangerous leaks
@@ -84,4 +85,100 @@ export const BUILTIN_RULES = [
         enabled: true,
     },
 ];
+const CODING_SECRET_KEYWORDS = [
+    'api key',
+    'apikey',
+    'access key',
+    'token',
+    'secret',
+    'password',
+    'passwd',
+    'private key',
+    'credential',
+    'bearer',
+    'jwt',
+    'oauth',
+    'auth',
+    'ssh',
+    'pgp',
+];
+function riskToSeverity(risk) {
+    if (risk >= 8)
+        return 'critical';
+    if (risk >= 6)
+        return 'high';
+    if (risk >= 3)
+        return 'medium';
+    return 'low';
+}
+function sourceCategoryToRuleCategory(sourceCategory) {
+    if (sourceCategory.toLowerCase() === 'pii') {
+        return 'pii';
+    }
+    return 'secret';
+}
+function slugify(value) {
+    return value
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80);
+}
+function isCodingSecretPattern(entry) {
+    const text = `${entry.name} ${entry.description} ${entry.regex}`.toLowerCase();
+    return CODING_SECRET_KEYWORDS.some((keyword) => text.includes(keyword));
+}
+/**
+ * Load rules from external JSON converted from CSV regex lists.
+ */
+export function loadExternalRulesFromJson(jsonPath, options = {}) {
+    if (!fs.existsSync(jsonPath)) {
+        return [];
+    }
+    try {
+        const raw = fs.readFileSync(jsonPath, 'utf-8');
+        const parsed = JSON.parse(raw);
+        const codingOnly = options.codingOnly ?? true;
+        const rules = [];
+        const usedIds = new Set();
+        for (const entry of parsed) {
+            if (!entry?.name || !entry?.regex) {
+                continue;
+            }
+            if (codingOnly && !isCodingSecretPattern(entry)) {
+                continue;
+            }
+            try {
+                // Ensure regex is compilable before adding.
+                void new RegExp(entry.regex, 'g');
+            }
+            catch {
+                continue;
+            }
+            let id = `external-${slugify(entry.name)}`;
+            let suffix = 2;
+            while (usedIds.has(id)) {
+                id = `external-${slugify(entry.name)}-${suffix}`;
+                suffix += 1;
+            }
+            usedIds.add(id);
+            rules.push({
+                id,
+                title: entry.name,
+                description: entry.description || `External regex rule: ${entry.name}`,
+                severity: riskToSeverity(Number(entry.risk) || 0),
+                category: sourceCategoryToRuleCategory(entry.category || ''),
+                pattern: entry.regex,
+                examples: [entry.name],
+                redactionStrategy: 'token-replace',
+                enabled: true,
+            });
+        }
+        return rules;
+    }
+    catch (error) {
+        console.error('Failed to load external regex JSON rules:', error);
+        return [];
+    }
+}
 //# sourceMappingURL=detectors.js.map

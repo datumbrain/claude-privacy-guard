@@ -61,4 +61,6 @@ export interface PrivacyGuardConfig {
   disabledRules: string[];
   redactionStyle: 'placeholder' | 'mask' | 'remove';
   autoMaskOnHighRisk: boolean;
+  externalRulesJsonPath?: string;
+  externalRulesMode?: 'coding-only' | 'all';
 }

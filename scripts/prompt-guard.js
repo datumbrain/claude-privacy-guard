@@ -9,6 +9,8 @@
 
 import { PrivacyScanner } from '../dist/scanner/engine.js';
 import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { BUILTIN_RULES, loadExternalRulesFromJson } from '../dist/scanner/detectors.js';
 
 // Read the user's prompt from stdin
 let promptText = '';
@@ -20,8 +22,10 @@ try {
   process.exit(1);
 }
 
-// Initialize scanner
-const scanner = new PrivacyScanner();
+// Initialize scanner with built-in + external JSON regex rules
+const externalRulesPath = fileURLToPath(new URL('../data/regex_list_1.json', import.meta.url));
+const externalRules = loadExternalRulesFromJson(externalRulesPath, { codingOnly: true });
+const scanner = new PrivacyScanner([...BUILTIN_RULES, ...externalRules]);
 
 // Scan the prompt
 const result = scanner.scan(promptText);
@@ -30,7 +34,7 @@ const result = scanner.scan(promptText);
 if (result.findings.length > 0) {
   // Build detailed findings list
   const findingsList = result.findings.map(f =>
-    `  - ${f.type}: ${f.match.substring(0, 20)}...`
+    `  - ${f.title}: ${f.match.substring(0, 20)}...`
   ).join('\n');
 
   // Return blocking decision as JSON
@@ -39,7 +43,7 @@ if (result.findings.length > 0) {
     reason: `🛡️ Privacy Guard blocked this prompt\n\n` +
             `Found ${result.findings.length} sensitive item(s):\n${findingsList}\n\n` +
             `Risk Score: ${result.riskScore}/100\n` +
-            `Secrets: ${result.summary.secrets} | PII: ${result.summary.pii}\n\n` +
+            `Secrets: ${result.summary.secret || 0} | PII: ${result.summary.pii || 0}\n\n` +
             `Please remove or anonymize sensitive data before proceeding.`
   };
 
@@ -49,8 +53,8 @@ if (result.findings.length > 0) {
   console.error('\n⚠️  Privacy Guard: Prompt blocked due to sensitive data');
   console.error(`   Found: ${result.findings.length} issue(s)`);
   console.error(`   Risk Score: ${result.riskScore}/100`);
-  if (result.summary.secrets > 0) {
-    console.error(`   - ${result.summary.secrets} secret(s)`);
+  if ((result.summary.secret || 0) > 0) {
+    console.error(`   - ${result.summary.secret} secret(s)`);
   }
   if (result.summary.pii > 0) {
     console.error(`   - ${result.summary.pii} PII item(s)`);

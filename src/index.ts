@@ -13,8 +13,10 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
+import { fileURLToPath } from 'url';
 
 import { PrivacyScanner } from './scanner/engine.js';
+import { BUILTIN_RULES, loadExternalRulesFromJson } from './scanner/detectors.js';
 import { Redactor } from './redactor/masker.js';
 import { ConfigLoader } from './config/loader.js';
 
@@ -44,8 +46,15 @@ class PrivacyGuardServer {
     const configLoader = new ConfigLoader(configPath || undefined);
     this.config = configLoader.getConfig();
 
-    // Initialize scanner
-    this.scanner = new PrivacyScanner();
+    // Initialize scanner with built-in + external JSON rules
+    const defaultExternalRulesPath = fileURLToPath(new URL('../data/regex_list_1.json', import.meta.url));
+    const externalRulesPath = this.config.externalRulesJsonPath || defaultExternalRulesPath;
+    const externalRules = loadExternalRulesFromJson(externalRulesPath, {
+      codingOnly: this.config.externalRulesMode !== 'all',
+    });
+    const disabledRules = new Set(this.config.disabledRules);
+    const activeRules = [...BUILTIN_RULES, ...externalRules].filter((rule) => !disabledRules.has(rule.id));
+    this.scanner = new PrivacyScanner(activeRules);
 
     this.setupHandlers();
 

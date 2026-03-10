@@ -22,7 +22,13 @@ A privacy-first plugin for Claude Code that scans prompts for sensitive data and
 /plugin install claude-privacy-guard
 ```
 
-That's it! The plugin will automatically scan all prompts before they reach Claude.
+> **⚠️ Important: Restart Required**
+>
+> After installing the plugin, you must **restart your Claude Code session** for it to take effect. This is because hooks are registered at session startup - Claude Code doesn't dynamically load new hooks mid-session.
+>
+> Simply close and reopen Claude Code, or start a new session.
+
+Once restarted, the plugin will automatically scan all prompts before they reach Claude.
 
 ## What Gets Detected
 
@@ -87,6 +93,18 @@ npm run build
 
 # Test the scanner directly
 echo "test sk-proj-abc123" | node scripts/prompt-guard.js
+```
+
+External regex dataset:
+- Converted rules are stored at `data/regex_list_1.json`
+- By default, external rules are loaded in `coding-only` mode (focus on keys/tokens/secrets/password/private key patterns)
+- Set `.privacy-guard.json` to control behavior:
+
+```json
+{
+  "externalRulesJsonPath": "./data/regex_list_1.json",
+  "externalRulesMode": "coding-only"
+}
 ```
 
 See [docs/](./docs/) for detailed architecture and integration guides.

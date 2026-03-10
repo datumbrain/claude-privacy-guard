@@ -7,5 +7,7 @@
   ],
   "disabledRules": [],
   "redactionStyle": "placeholder",
-  "autoMaskOnHighRisk": true
+  "autoMaskOnHighRisk": true,
+  "externalRulesJsonPath": "./data/regex_list_1.json",
+  "externalRulesMode": "coding-only"
 }
