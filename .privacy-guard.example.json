@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "strictMode": false,
+  "allowedDomains": [
+    "example.com",
+    "localhost"
+  ],
+  "disabledRules": [],
+  "redactionStyle": "placeholder",
+  "autoMaskOnHighRisk": true
+}

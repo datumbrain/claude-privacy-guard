@@ -1,0 +1,44 @@
+{
+  "name": "claude-privacy-guard",
+  "version": "0.1.0",
+  "description": "Privacy guard plugin for Claude Code - prevents PII and secrets from leaking into AI prompts",
+  "main": "dist/index.js",
+  "bin": {
+    "claude-privacy-guard": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "claude",
+    "privacy",
+    "security",
+    "pii",
+    "secrets",
+    "mcp",
+    "ai-safety"
+  ],
+  "author": "Datum Brain",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
