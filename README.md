@@ -1,5 +1,7 @@
 # Claude Privacy Guard
 
+<img src="./assets/claude-privacy-guard-logo.png" alt="Claude Privacy Guard Logo" height="120" />
+
 > 🛡️ Prevent secrets and PII from being accidentally shared with Claude Code.
 
 A privacy-first plugin for Claude Code that scans prompts for sensitive data and **blocks** them before they reach the AI.
