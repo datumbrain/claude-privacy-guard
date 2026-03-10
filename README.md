@@ -1,6 +1,6 @@
 # Claude Privacy Guard
 
-> 🛡️ Prevent secrets and PII from being accidentally shared with Claude Code
+> 🛡️ Prevent secrets and PII from being accidentally shared with Claude Code.
 
 A privacy-first plugin for Claude Code that scans prompts for sensitive data and **blocks** them before they reach the AI.
 
