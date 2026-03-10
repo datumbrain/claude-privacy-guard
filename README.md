@@ -12,18 +12,17 @@ A privacy-first plugin for Claude Code that scans prompts for sensitive data and
 - ✅ **Zero configuration** - works out of the box
 - ✅ **Detailed reporting** - shows exactly what was detected
 
-## Quick Start
+## Installation
 
 ```bash
-# Install dependencies
-npm install
+# Add the marketplace (if not already added)
+/plugin marketplace add datumbrain/claude-privacy-guard
 
-# Build the plugin
-npm run build
-
-# Start Claude Code with the plugin
-claude --plugin-dir /path/to/claude-privacy-guard
+# Install the plugin
+/plugin install claude-privacy-guard
 ```
+
+That's it! The plugin will automatically scan all prompts before they reach Claude.
 
 ## What Gets Detected
 
@@ -72,60 +71,25 @@ Secrets: 1 | PII: 1
 Please remove or anonymize sensitive data before proceeding.
 ```
 
-## Installation
-
-### Method 1: Direct Usage (Recommended)
-
-```bash
-claude --plugin-dir /path/to/claude-privacy-guard
-```
-
-### Method 2: Create an Alias
-
-Add to your `~/.zshrc` or `~/.bashrc`:
-
-```bash
-alias claude-safe='claude --plugin-dir /path/to/claude-privacy-guard'
-```
-
-Then use:
-```bash
-claude-safe
-```
 
 ## Development
 
 ```bash
+# Clone the repository
+git clone https://github.com/datumbrain/claude-privacy-guard.git
+cd claude-privacy-guard
+
 # Install dependencies
 npm install
 
 # Build
 npm run build
 
-# Run tests
-npm test
-
 # Test the scanner directly
 echo "test sk-proj-abc123" | node scripts/prompt-guard.js
 ```
 
-## Architecture
-
-```
-.
-├── .claude-plugin/
-│   └── plugin.json       # Plugin manifest
-├── hooks/
-│   └── hooks.json        # Hook configuration
-├── scripts/
-│   ├── prompt-guard.js   # Main scanning script
-│   └── prompt-guard-wrapper.sh
-├── src/
-│   ├── scanner/          # Detection engine
-│   ├── redactor/         # Data masking utilities
-│   └── config/           # Configuration
-└── dist/                 # Compiled output
-```
+See [docs/](./docs/) for detailed architecture and integration guides.
 
 ## Privacy & Security
 

@@ -1,13 +1,16 @@
 {
   "name": "datumbrain-plugins",
   "owner": {
-    "name": "Datum Brain"
+    "name": "Datum Brain",
+    "url": "https://github.com/datumbrain"
   },
   "plugins": [
     {
       "name": "claude-privacy-guard",
       "source": "./",
-      "description": "Privacy guard plugin for Claude Code"
+      "description": "🛡️ Prevent secrets and PII from being accidentally shared with Claude Code",
+      "version": "0.1.0",
+      "repository": "https://github.com/datumbrain/claude-privacy-guard"
     }
   ]
 }
